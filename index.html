@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Planner Toolkit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Traffic Planner Toolkit</h1>
+    <p class="version">Traffic Counter Module - Version 0.4</p>
+
+    <section class="card">
+      <h2>Count Details</h2>
+
+      <label for="siteName">Site / Intersection Name</label>
+      <input id="siteName" placeholder="Example: Horwood Rd / Flores Rd">
+
+      <label for="projectName">Client / Project</label>
+      <input id="projectName" placeholder="Example: City of Greater Geraldton">
+    </section>
+
+    <section class="card setup-card">
+      <h2>Setup Roads</h2>
+
+      <div class="road-setup">
+        <h3>Road 1</h3>
+
+        <label for="road1Name">Road 1 Name</label>
+        <input id="road1Name" value="Road 1">
+
+        <label for="road1DirA">Direction A</label>
+        <select id="road1DirA">
+          <option>Northbound</option>
+          <option>Southbound</option>
+          <option>Eastbound</option>
+          <option>Westbound</option>
+          <option>Inbound</option>
+          <option>Outbound</option>
+        </select>
+
+        <label for="road1DirB">Direction B</label>
+        <select id="road1DirB">
+          <option>Southbound</option>
+          <option>Northbound</option>
+          <option>Eastbound</option>
+          <option>Westbound</option>
+          <option>Inbound</option>
+          <option>Outbound</option>
+        </select>
+      </div>
+
+      <div class="road-setup">
+        <h3>Road 2</h3>
+
+        <label for="road2Name">Road 2 Name</label>
+        <input id="road2Name" value="Road 2">
+
+        <label for="road2DirA">Direction A</label>
+        <select id="road2DirA">
+          <option>Eastbound</option>
+          <option>Westbound</option>
+          <option>Northbound</option>
+          <option>Southbound</option>
+          <option>Inbound</option>
+          <option>Outbound</option>
+        </select>
+
+        <label for="road2DirB">Direction B</label>
+        <select id="road2DirB">
+          <option>Westbound</option>
+          <option>Eastbound</option>
+          <option>Northbound</option>
+          <option>Southbound</option>
+          <option>Inbound</option>
+          <option>Outbound</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="countScreen"></section>
+
+    <section class="card summary">
+      <h2>Overall Total: <span id="overallTotal">0</span></h2>
+
+      <button class="undo" onclick="undoLast()">Undo Last Tap</button>
+      <button class="export" onclick="exportCSV()">Export CSV</button>
+      <button class="clear" onclick="clearAllCounts()">Clear All Counts</button>
+
+      <h3>Last Entry</h3>
+      <p id="lastEntry">None yet</p>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

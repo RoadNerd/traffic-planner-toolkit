@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #eef1f5;
+}
+
+.app {
+  max-width: 760px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.version {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  margin-top: 0;
+  background: #222;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+h3 {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.road-setup {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.direction-block {
+  background: #f7f7f7;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+}
+
+.direction-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  padding: 18px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  background: #2d6cdf;
+  color: white;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.vehicle-count {
+  display: block;
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+.direction-total,
+.road-total {
+  font-weight: bold;
+  font-size: 18px;
+  background: #e9eef7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.road-total {
+  background: #dfeee4;
+}
+
+.summary {
+  text-align: center;
+}
+
+.undo,
+.export,
+.clear {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.undo {
+  background: #c0392b;
+}
+
+.export {
+  background: #1e8449;
+}
+
+.clear {
+  background: #555;
+}
+
+#lastEntry {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px;
+  word-break: break-word;
+}
