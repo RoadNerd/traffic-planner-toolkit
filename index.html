@@ -1,98 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Traffic Planner Toolkit</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="app">
-    <h1>Traffic Planner Toolkit</h1>
-    <p class="version">Traffic Counter Module - Version 0.4</p>
+<div class="app">
+  <h1>Traffic Planner Toolkit</h1>
+  <p class="version">Version 0.5 Development</p>
 
-    <section class="card">
-      <h2>Count Details</h2>
+  <section class="card">
+    <h2>Job Details</h2>
 
-      <label for="siteName">Site / Intersection Name</label>
-      <input id="siteName" placeholder="Example: Horwood Rd / Flores Rd">
+    <label>Site / Location</label>
+    <input id="siteName" placeholder="Example: Edward Road">
 
-      <label for="projectName">Client / Project</label>
-      <input id="projectName" placeholder="Example: City of Greater Geraldton">
-    </section>
+    <label>Client / Project</label>
+    <input id="projectName" placeholder="Example: Ventia">
 
-    <section class="card setup-card">
-      <h2>Setup Roads</h2>
+    <label>Road Name</label>
+    <input id="roadName" placeholder="Example: Rudd's Gully Road">
+  </section>
 
-      <div class="road-setup">
-        <h3>Road 1</h3>
+  <section class="card">
+    <h2>Road Setup</h2>
 
-        <label for="road1Name">Road 1 Name</label>
-        <input id="road1Name" value="Road 1">
+    <label>Direction 1</label>
+    <select id="directionA">
+      <option>Northbound</option>
+      <option>Southbound</option>
+      <option>Eastbound</option>
+      <option>Westbound</option>
+      <option>Inbound</option>
+      <option>Outbound</option>
+    </select>
 
-        <label for="road1DirA">Direction A</label>
-        <select id="road1DirA">
-          <option>Northbound</option>
-          <option>Southbound</option>
-          <option>Eastbound</option>
-          <option>Westbound</option>
-          <option>Inbound</option>
-          <option>Outbound</option>
-        </select>
+    <label>Direction 2</label>
+    <select id="directionB">
+      <option>Southbound</option>
+      <option>Northbound</option>
+      <option>Eastbound</option>
+      <option>Westbound</option>
+      <option>Inbound</option>
+      <option>Outbound</option>
+    </select>
 
-        <label for="road1DirB">Direction B</label>
-        <select id="road1DirB">
-          <option>Southbound</option>
-          <option>Northbound</option>
-          <option>Eastbound</option>
-          <option>Westbound</option>
-          <option>Inbound</option>
-          <option>Outbound</option>
-        </select>
-      </div>
+    <label>Lane / Movement Type</label>
+    <select id="laneType">
+      <option>Through Lane</option>
+      <option>Turning Pocket</option>
+      <option>Auxiliary Lane</option>
+      <option>Slip Lane</option>
+      <option>Merge Lane</option>
+      <option>Other</option>
+    </select>
+  </section>
 
-      <div class="road-setup">
-        <h3>Road 2</h3>
+  <section class="card">
+    <h2 id="roadTitle">Traffic Count</h2>
 
-        <label for="road2Name">Road 2 Name</label>
-        <input id="road2Name" value="Road 2">
+    <h3 id="directionALabel">Direction 1</h3>
+    <div class="button-grid">
+      <button onclick="addCount('A', 'Light Vehicle')">
+        Car / Light
+        <span id="directionALight">0</span>
+      </button>
 
-        <label for="road2DirA">Direction A</label>
-        <select id="road2DirA">
-          <option>Eastbound</option>
-          <option>Westbound</option>
-          <option>Northbound</option>
-          <option>Southbound</option>
-          <option>Inbound</option>
-          <option>Outbound</option>
-        </select>
+      <button onclick="addCount('A', 'Heavy Vehicle')">
+        Heavy
+        <span id="directionAHeavy">0</span>
+      </button>
 
-        <label for="road2DirB">Direction B</label>
-        <select id="road2DirB">
-          <option>Westbound</option>
-          <option>Eastbound</option>
-          <option>Northbound</option>
-          <option>Southbound</option>
-          <option>Inbound</option>
-          <option>Outbound</option>
-        </select>
-      </div>
-    </section>
+      <button onclick="addCount('A', 'Bus')">
+        Bus
+        <span id="directionABus">0</span>
+      </button>
 
-    <section id="countScreen"></section>
+      <button onclick="addCount('A', 'Pedestrian')">
+        Pedestrian
+        <span id="directionAPedestrian">0</span>
+      </button>
+    </div>
 
-    <section class="card summary">
-      <h2>Overall Total: <span id="overallTotal">0</span></h2>
+    <p class="direction-total">
+      Direction Total:
+      <span id="directionATotal">0</span>
+    </p>
 
-      <button class="undo" onclick="undoLast()">Undo Last Tap</button>
-      <button class="export" onclick="exportCSV()">Export CSV</button>
-      <button class="clear" onclick="clearAllCounts()">Clear All Counts</button>
+    <h3 id="directionBLabel">Direction 2</h3>
+    <div class="button-grid">
+      <button onclick="addCount('B', 'Light Vehicle')">
+        Car / Light
+        <span id="directionBLight">0</span>
+      </button>
 
-      <h3>Last Entry</h3>
-      <p id="lastEntry">None yet</p>
-    </section>
-  </div>
+      <button onclick="addCount('B', 'Heavy Vehicle')">
+        Heavy
+        <span id="directionBHeavy">0</span>
+      </button>
 
-  <script src="script.js"></script>
-</body>
-</html>
+      <button onclick="addCount('B', 'Bus')">
+        Bus
+        <span id="directionBBus">0</span>
+      </button>
+
+      <button onclick="addCount('B', 'Pedestrian')">
+        Pedestrian
+        <span id="directionBPedestrian">0</span>
+      </button>
+    </div>
+
+    <p class="direction-total">
+      Direction Total:
+      <span id="directionBTotal">0</span>
+    </p>
+  </section>
+
+  <section class="card summary">
+    <h2>Total Count: <span id="totalCount">0</span></h2>
+
+    <button class="undo" onclick="undoLast()">Undo Last Tap</button>
+    <button class="export" onclick="exportCSV()">Export Report</button>
+
+    <h3>Last Entry</h3>
+    <p id="lastEntry">None yet</p>
+  </section>
+</div>
