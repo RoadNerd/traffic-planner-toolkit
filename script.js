@@ -21,13 +21,14 @@ let countFinishTime = null;
 
 function setTimer(minutes) {
   if (timerRunning) {
-    alert("Finish or pause the current count before changing the timer.");
+    alert("Pause or finish the current count before changing the timer.");
     return;
   }
 
   timerDurationSeconds = minutes * 60;
   timerRemainingSeconds = timerDurationSeconds;
 
+  document.getElementById("timerStatus").innerText = "Ready";
   updateTimerDisplay();
 }
 
@@ -66,7 +67,7 @@ function startTimer() {
 
   clearInterval(timerInterval);
 
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(function () {
     timerRemainingSeconds--;
 
     if (timerRemainingSeconds <= 0) {
@@ -93,17 +94,15 @@ function pauseTimer() {
     timerPaused = true;
 
     document.getElementById("timerStatus").innerText = "Paused";
-
     document.getElementById("pauseTimerButton").innerText = "RESUME";
 
   } else {
     timerPaused = false;
 
     document.getElementById("timerStatus").innerText = "Counting";
-
     document.getElementById("pauseTimerButton").innerText = "PAUSE";
 
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(function () {
       timerRemainingSeconds--;
 
       if (timerRemainingSeconds <= 0) {
@@ -119,10 +118,6 @@ function pauseTimer() {
 }
 
 function finishTimer() {
-  if (!timerRunning && !timerPaused) {
-    return;
-  }
-
   clearInterval(timerInterval);
 
   countFinishTime = new Date();
@@ -170,7 +165,7 @@ function updateTimerDisplay() {
   const formattedSeconds = String(seconds).padStart(2, "0");
 
   document.getElementById("timerDisplay").innerText =
-    `${formattedMinutes}:${formattedSeconds}`;
+    formattedMinutes + ":" + formattedSeconds;
 }
 
 
@@ -237,16 +232,18 @@ function undoLast() {
 // -----------------------------
 
 function countMatches(direction, vehicleType) {
-  return countRecords.filter(record =>
-    record.direction === direction &&
-    record.vehicleType === vehicleType
-  ).length;
+  return countRecords.filter(function (record) {
+    return (
+      record.direction === direction &&
+      record.vehicleType === vehicleType
+    );
+  }).length;
 }
 
 function countDirectionTotal(direction) {
-  return countRecords.filter(record =>
-    record.direction === direction
-  ).length;
+  return countRecords.filter(function (record) {
+    return record.direction === direction;
+  }).length;
 }
 
 
@@ -303,7 +300,6 @@ function updateDisplay() {
   document.getElementById("directionATotal").innerText =
     countDirectionTotal(directionA);
 
-
   document.getElementById("directionBLight").innerText =
     countMatches(directionB, "Light Vehicle");
 
@@ -319,15 +315,12 @@ function updateDisplay() {
   document.getElementById("directionBTotal").innerText =
     countDirectionTotal(directionB);
 
-
   document.getElementById("totalCount").innerText =
     countRecords.length;
-
 
   if (countRecords.length === 0) {
     document.getElementById("lastEntry").innerText =
       "None yet";
-
     return;
   }
 
@@ -335,12 +328,18 @@ function updateDisplay() {
     countRecords[countRecords.length - 1];
 
   document.getElementById("lastEntry").innerText =
-    `${last.timestamp} | ${last.road} | ${last.direction} | ${last.vehicleType}`;
+    last.timestamp +
+    " | " +
+    last.road +
+    " | " +
+    last.direction +
+    " | " +
+    last.vehicleType;
 }
 
 
 // -----------------------------
-// FORMAT TIMER DATA FOR REPORT
+// REPORT HELPERS
 // -----------------------------
 
 function formatDateTime(date) {
@@ -394,26 +393,25 @@ function exportCSV() {
   const directionB =
     document.getElementById("directionB").value;
 
-
   const lightTotal =
-    countRecords.filter(record =>
-      record.vehicleType === "Light Vehicle"
-    ).length;
+    countRecords.filter(function (record) {
+      return record.vehicleType === "Light Vehicle";
+    }).length;
 
   const heavyTotal =
-    countRecords.filter(record =>
-      record.vehicleType === "Heavy Vehicle"
-    ).length;
+    countRecords.filter(function (record) {
+      return record.vehicleType === "Heavy Vehicle";
+    }).length;
 
   const busTotal =
-    countRecords.filter(record =>
-      record.vehicleType === "Bus"
-    ).length;
+    countRecords.filter(function (record) {
+      return record.vehicleType === "Bus";
+    }).length;
 
   const pedestrianTotal =
-    countRecords.filter(record =>
-      record.vehicleType === "Pedestrian"
-    ).length;
+    countRecords.filter(function (record) {
+      return record.vehicleType === "Pedestrian";
+    }).length;
 
   const directionATotal =
     countDirectionTotal(directionA);
@@ -431,37 +429,70 @@ function exportCSV() {
       ((heavyTotal / vehicleTotal) * 100).toFixed(1);
   }
 
+  let equivalentHourlyFlow = "";
+
+  const actualDurationMinutes =
+    Number(getActualDurationMinutes());
+
+  if (
+    actualDurationMinutes > 0 &&
+    vehicleTotal > 0
+  ) {
+    equivalentHourlyFlow =
+      Math.round(
+        vehicleTotal * (60 / actualDurationMinutes)
+      );
+  }
+
 
   let csv = "";
 
   csv += "TRAFFIC PLANNER TOOLKIT\n";
   csv += "TRAFFIC COUNT DASHBOARD\n\n";
 
-  csv += `Site,"${siteName}"\n`;
-  csv += `Client / Project,"${projectName}"\n`;
-  csv += `Road,"${roadName}"\n`;
-  csv += `Lane / Movement Type,"${laneType}"\n`;
+  csv += 'Site,"' + siteName + '"\n';
+  csv += 'Client / Project,"' + projectName + '"\n';
+  csv += 'Road,"' + roadName + '"\n';
+  csv += 'Lane / Movement Type,"' + laneType + '"\n';
 
-  csv += `Count Start,"${formatDateTime(countStartTime)}"\n`;
-  csv += `Count Finish,"${formatDateTime(countFinishTime)}"\n`;
-  csv += `Actual Duration (minutes),"${getActualDurationMinutes()}"\n`;
+  csv +=
+    'Count Start,"' +
+    formatDateTime(countStartTime) +
+    '"\n';
+
+  csv +=
+    'Count Finish,"' +
+    formatDateTime(countFinishTime) +
+    '"\n';
+
+  csv +=
+    'Actual Duration (minutes),"' +
+    getActualDurationMinutes() +
+    '"\n';
 
   csv += "\n";
 
   csv += "TRAFFIC SUMMARY\n";
-  csv += `Total Vehicles,${vehicleTotal}\n`;
-  csv += `Light Vehicles,${lightTotal}\n`;
-  csv += `Heavy Vehicles,${heavyTotal}\n`;
-  csv += `Bus,${busTotal}\n`;
-  csv += `Pedestrians,${pedestrianTotal}\n`;
-  csv += `Heavy Vehicle %,${heavyPercent}%\n`;
+  csv += "Total Vehicles," + vehicleTotal + "\n";
+  csv += "Light Vehicles," + lightTotal + "\n";
+  csv += "Heavy Vehicles," + heavyTotal + "\n";
+  csv += "Bus," + busTotal + "\n";
+  csv += "Pedestrians," + pedestrianTotal + "\n";
+  csv += "Heavy Vehicle %," + heavyPercent + "%\n";
+
+  if (equivalentHourlyFlow !== "") {
+    csv +=
+      "Equivalent Hourly Flow," +
+      equivalentHourlyFlow +
+      " veh/hr\n";
+  }
 
   csv += "\n";
 
   csv += "DIRECTION SUMMARY\n";
   csv += "Direction,Total\n";
-  csv += `"${directionA}",${directionATotal}\n`;
-  csv += `"${directionB}",${directionBTotal}\n`;
+  csv += '"' + directionA + '",' + directionATotal + "\n";
+  csv += '"' + directionB + '",' + directionBTotal + "\n";
 
   csv += "\n\n";
 
@@ -470,21 +501,23 @@ function exportCSV() {
   csv +=
     "Timestamp,ISO Time,Site,Client / Project,Road,Lane / Movement Type,Direction,Vehicle Type\n";
 
-  countRecords.forEach(record => {
+  countRecords.forEach(function (record) {
     csv +=
-      `"${record.timestamp}",` +
-      `"${record.dateISO}",` +
-      `"${record.site}",` +
-      `"${record.project}",` +
-      `"${record.road}",` +
-      `"${record.laneType}",` +
-      `"${record.direction}",` +
-      `"${record.vehicleType}"\n`;
+      '"' + record.timestamp + '",' +
+      '"' + record.dateISO + '",' +
+      '"' + record.site + '",' +
+      '"' + record.project + '",' +
+      '"' + record.road + '",' +
+      '"' + record.laneType + '",' +
+      '"' + record.direction + '",' +
+      '"' + record.vehicleType + '"\n';
   });
 
-
   const blob =
-    new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    new Blob(
+      [csv],
+      { type: "text/csv;charset=utf-8;" }
+    );
 
   const url =
     URL.createObjectURL(blob);
