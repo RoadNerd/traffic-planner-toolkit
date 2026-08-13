@@ -1,121 +1,257 @@
-<div class="app">
-  <h1>Traffic Planner Toolkit</h1>
-  <p class="version">Version 0.5 Development</p>
+<!DOCTYPE html>
+<html lang="en">
 
-  <section class="card">
-    <h2>Job Details</h2>
+<head>
+  <meta charset="UTF-8">
 
-    <label>Site / Location</label>
-    <input id="siteName" placeholder="Example: Edward Road">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <label>Client / Project</label>
-    <input id="projectName" placeholder="Example: Ventia">
+  <title>Traffic Planner Toolkit</title>
 
-    <label>Road Name</label>
-    <input id="roadName" placeholder="Example: Rudd's Gully Road">
-  </section>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-  <section class="card">
-    <h2>Road Setup</h2>
+<body>
 
-    <label>Direction 1</label>
-    <select id="directionA">
-      <option>Northbound</option>
-      <option>Southbound</option>
-      <option>Eastbound</option>
-      <option>Westbound</option>
-      <option>Inbound</option>
-      <option>Outbound</option>
-    </select>
+  <div class="app">
 
-    <label>Direction 2</label>
-    <select id="directionB">
-      <option>Southbound</option>
-      <option>Northbound</option>
-      <option>Eastbound</option>
-      <option>Westbound</option>
-      <option>Inbound</option>
-      <option>Outbound</option>
-    </select>
+    <h1>Traffic Planner Toolkit</h1>
+    <p class="version">Version 0.5 Development</p>
 
-    <label>Lane / Movement Type</label>
-    <select id="laneType">
-      <option>Through Lane</option>
-      <option>Turning Pocket</option>
-      <option>Auxiliary Lane</option>
-      <option>Slip Lane</option>
-      <option>Merge Lane</option>
-      <option>Other</option>
-    </select>
-  </section>
 
-  <section class="card">
-    <h2 id="roadTitle">Traffic Count</h2>
+    <!-- JOB DETAILS -->
 
-    <h3 id="directionALabel">Direction 1</h3>
-    <div class="button-grid">
-      <button onclick="addCount('A', 'Light Vehicle')">
-        Car / Light
-        <span id="directionALight">0</span>
+    <section class="card">
+
+      <h2>Job Details</h2>
+
+      <label for="siteName">
+        Site / Location
+      </label>
+
+      <input
+        id="siteName"
+        type="text"
+        placeholder="Example: Edward Road"
+      >
+
+
+      <label for="projectName">
+        Client / Project
+      </label>
+
+      <input
+        id="projectName"
+        type="text"
+        placeholder="Example: Ventia"
+      >
+
+
+      <label for="roadName">
+        Road Name
+      </label>
+
+      <input
+        id="roadName"
+        type="text"
+        placeholder="Example: Rudd's Gully Road"
+      >
+
+    </section>
+
+
+    <!-- ROAD SETUP -->
+
+    <section class="card">
+
+      <h2>Road Setup</h2>
+
+
+      <label for="directionA">
+        Direction 1
+      </label>
+
+      <select id="directionA">
+
+        <option>Northbound</option>
+        <option>Southbound</option>
+        <option>Eastbound</option>
+        <option>Westbound</option>
+        <option>Inbound</option>
+        <option>Outbound</option>
+
+      </select>
+
+
+      <label for="directionB">
+        Direction 2
+      </label>
+
+      <select id="directionB">
+
+        <option>Southbound</option>
+        <option>Northbound</option>
+        <option>Eastbound</option>
+        <option>Westbound</option>
+        <option>Inbound</option>
+        <option>Outbound</option>
+
+      </select>
+
+
+      <label for="laneType">
+        Lane / Movement Type
+      </label>
+
+      <select id="laneType">
+
+        <option>Through Lane</option>
+        <option>Turning Pocket</option>
+        <option>Auxiliary Lane</option>
+        <option>Slip Lane</option>
+        <option>Merge Lane</option>
+        <option>Other</option>
+
+      </select>
+
+    </section>
+
+
+    <!-- TRAFFIC COUNT -->
+
+    <section class="card">
+
+      <h2 id="roadTitle">
+        Traffic Count
+      </h2>
+
+
+      <!-- DIRECTION A -->
+
+      <h3 id="directionALabel">
+        Direction 1
+      </h3>
+
+      <div class="button-grid">
+
+        <button onclick="addCount('A', 'Light Vehicle')">
+          Car / Light
+          <span id="directionALight">0</span>
+        </button>
+
+
+        <button onclick="addCount('A', 'Heavy Vehicle')">
+          Heavy
+          <span id="directionAHeavy">0</span>
+        </button>
+
+
+        <button onclick="addCount('A', 'Bus')">
+          Bus
+          <span id="directionABus">0</span>
+        </button>
+
+
+        <button onclick="addCount('A', 'Pedestrian')">
+          Pedestrian
+          <span id="directionAPedestrian">0</span>
+        </button>
+
+      </div>
+
+
+      <p class="direction-total">
+        Direction Total:
+        <span id="directionATotal">0</span>
+      </p>
+
+
+      <!-- DIRECTION B -->
+
+      <h3 id="directionBLabel">
+        Direction 2
+      </h3>
+
+      <div class="button-grid">
+
+        <button onclick="addCount('B', 'Light Vehicle')">
+          Car / Light
+          <span id="directionBLight">0</span>
+        </button>
+
+
+        <button onclick="addCount('B', 'Heavy Vehicle')">
+          Heavy
+          <span id="directionBHeavy">0</span>
+        </button>
+
+
+        <button onclick="addCount('B', 'Bus')">
+          Bus
+          <span id="directionBBus">0</span>
+        </button>
+
+
+        <button onclick="addCount('B', 'Pedestrian')">
+          Pedestrian
+          <span id="directionBPedestrian">0</span>
+        </button>
+
+      </div>
+
+
+      <p class="direction-total">
+        Direction Total:
+        <span id="directionBTotal">0</span>
+      </p>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card summary">
+
+      <h2>
+        Total Count:
+        <span id="totalCount">0</span>
+      </h2>
+
+
+      <button
+        class="undo"
+        onclick="undoLast()"
+      >
+        Undo Last Tap
       </button>
 
-      <button onclick="addCount('A', 'Heavy Vehicle')">
-        Heavy
-        <span id="directionAHeavy">0</span>
+
+      <button
+        class="export"
+        onclick="exportCSV()"
+      >
+        Export Report
       </button>
 
-      <button onclick="addCount('A', 'Bus')">
-        Bus
-        <span id="directionABus">0</span>
-      </button>
 
-      <button onclick="addCount('A', 'Pedestrian')">
-        Pedestrian
-        <span id="directionAPedestrian">0</span>
-      </button>
-    </div>
+      <h3>Last Entry</h3>
 
-    <p class="direction-total">
-      Direction Total:
-      <span id="directionATotal">0</span>
-    </p>
+      <p id="lastEntry">
+        None yet
+      </p>
 
-    <h3 id="directionBLabel">Direction 2</h3>
-    <div class="button-grid">
-      <button onclick="addCount('B', 'Light Vehicle')">
-        Car / Light
-        <span id="directionBLight">0</span>
-      </button>
+    </section>
 
-      <button onclick="addCount('B', 'Heavy Vehicle')">
-        Heavy
-        <span id="directionBHeavy">0</span>
-      </button>
+  </div>
 
-      <button onclick="addCount('B', 'Bus')">
-        Bus
-        <span id="directionBBus">0</span>
-      </button>
 
-      <button onclick="addCount('B', 'Pedestrian')">
-        Pedestrian
-        <span id="directionBPedestrian">0</span>
-      </button>
-    </div>
+  <!-- JAVASCRIPT -->
 
-    <p class="direction-total">
-      Direction Total:
-      <span id="directionBTotal">0</span>
-    </p>
-  </section>
+  <script src="script.js"></script>
 
-  <section class="card summary">
-    <h2>Total Count: <span id="totalCount">0</span></h2>
+</body>
 
-    <button class="undo" onclick="undoLast()">Undo Last Tap</button>
-    <button class="export" onclick="exportCSV()">Export Report</button>
-
-    <h3>Last Entry</h3>
-    <p id="lastEntry">None yet</p>
-  </section>
-</div>
+</html>
