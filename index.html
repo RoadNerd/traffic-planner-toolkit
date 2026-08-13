@@ -28,32 +28,21 @@
 
       <h2>Job Details</h2>
 
-      <label for="siteName">
-        Site / Location
-      </label>
-
+      <label for="siteName">Site / Location</label>
       <input
         id="siteName"
         type="text"
         placeholder="Example: Edward Road"
       >
 
-
-      <label for="projectName">
-        Client / Project
-      </label>
-
+      <label for="projectName">Client / Project</label>
       <input
         id="projectName"
         type="text"
         placeholder="Example: Ventia"
       >
 
-
-      <label for="roadName">
-        Road Name
-      </label>
-
+      <label for="roadName">Road Name</label>
       <input
         id="roadName"
         type="text"
@@ -69,53 +58,155 @@
 
       <h2>Road Setup</h2>
 
-
-      <label for="directionA">
-        Direction 1
-      </label>
+      <label for="directionA">Direction 1</label>
 
       <select id="directionA">
-
         <option>Northbound</option>
         <option>Southbound</option>
         <option>Eastbound</option>
         <option>Westbound</option>
         <option>Inbound</option>
         <option>Outbound</option>
-
       </select>
 
 
-      <label for="directionB">
-        Direction 2
-      </label>
+      <label for="directionB">Direction 2</label>
 
       <select id="directionB">
-
         <option>Southbound</option>
         <option>Northbound</option>
         <option>Eastbound</option>
         <option>Westbound</option>
         <option>Inbound</option>
         <option>Outbound</option>
-
       </select>
 
 
-      <label for="laneType">
-        Lane / Movement Type
-      </label>
+      <label for="laneType">Lane / Movement Type</label>
 
       <select id="laneType">
-
         <option>Through Lane</option>
         <option>Turning Pocket</option>
         <option>Auxiliary Lane</option>
         <option>Slip Lane</option>
         <option>Merge Lane</option>
         <option>Other</option>
-
       </select>
+
+    </section>
+
+
+    <!-- COUNT TIMER -->
+
+    <section class="card timer-card">
+
+      <h2>Count Timer</h2>
+
+      <div class="timer-display">
+
+        <span id="timerDisplay">15:00</span>
+
+        <small id="timerStatus">
+          Ready
+        </small>
+
+      </div>
+
+
+      <div class="timer-presets">
+
+        <button
+          type="button"
+          onclick="setTimer(5)"
+        >
+          5 min
+        </button>
+
+        <button
+          type="button"
+          onclick="setTimer(10)"
+        >
+          10 min
+        </button>
+
+        <button
+          type="button"
+          onclick="setTimer(15)"
+        >
+          15 min
+        </button>
+
+        <button
+          type="button"
+          onclick="setTimer(30)"
+        >
+          30 min
+        </button>
+
+        <button
+          type="button"
+          onclick="setTimer(60)"
+        >
+          60 min
+        </button>
+
+      </div>
+
+
+      <div class="custom-timer">
+
+        <label for="customMinutes">
+          Custom Minutes
+        </label>
+
+        <input
+          id="customMinutes"
+          type="number"
+          min="1"
+          inputmode="numeric"
+          placeholder="Enter minutes"
+        >
+
+        <button
+          type="button"
+          onclick="setCustomTimer()"
+        >
+          Set Custom
+        </button>
+
+      </div>
+
+
+      <button
+        id="startTimerButton"
+        class="start-count"
+        type="button"
+        onclick="startTimer()"
+      >
+        START COUNT
+      </button>
+
+
+      <button
+        id="pauseTimerButton"
+        class="pause-count"
+        type="button"
+        onclick="pauseTimer()"
+        disabled
+      >
+        PAUSE
+      </button>
+
+
+      <button
+        id="finishTimerButton"
+        class="finish-count"
+        type="button"
+        onclick="finishTimer()"
+        disabled
+      >
+        FINISH COUNT
+      </button>
 
     </section>
 
@@ -142,18 +233,15 @@
           <span id="directionALight">0</span>
         </button>
 
-
         <button onclick="addCount('A', 'Heavy Vehicle')">
           Heavy
           <span id="directionAHeavy">0</span>
         </button>
 
-
         <button onclick="addCount('A', 'Bus')">
           Bus
           <span id="directionABus">0</span>
         </button>
-
 
         <button onclick="addCount('A', 'Pedestrian')">
           Pedestrian
@@ -161,7 +249,6 @@
         </button>
 
       </div>
-
 
       <p class="direction-total">
         Direction Total:
@@ -182,18 +269,15 @@
           <span id="directionBLight">0</span>
         </button>
 
-
         <button onclick="addCount('B', 'Heavy Vehicle')">
           Heavy
           <span id="directionBHeavy">0</span>
         </button>
 
-
         <button onclick="addCount('B', 'Bus')">
           Bus
           <span id="directionBBus">0</span>
         </button>
-
 
         <button onclick="addCount('B', 'Pedestrian')">
           Pedestrian
@@ -201,7 +285,6 @@
         </button>
 
       </div>
-
 
       <p class="direction-total">
         Direction Total:
@@ -220,7 +303,6 @@
         <span id="totalCount">0</span>
       </h2>
 
-
       <button
         class="undo"
         onclick="undoLast()"
@@ -228,14 +310,12 @@
         Undo Last Tap
       </button>
 
-
       <button
         class="export"
         onclick="exportCSV()"
       >
         Export Report
       </button>
-
 
       <h3>Last Entry</h3>
 
@@ -247,8 +327,6 @@
 
   </div>
 
-
-  <!-- JAVASCRIPT -->
 
   <script src="script.js"></script>
 
