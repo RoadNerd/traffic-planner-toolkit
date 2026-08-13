@@ -1,8 +1,182 @@
 let countRecords = [];
 
-// ----------------------------------------------------
-// ADD A TRAFFIC COUNT
-// ----------------------------------------------------
+// -----------------------------
+// TIMER VARIABLES
+// -----------------------------
+
+let timerDurationSeconds = 15 * 60;
+let timerRemainingSeconds = timerDurationSeconds;
+
+let timerInterval = null;
+let timerRunning = false;
+let timerPaused = false;
+
+let countStartTime = null;
+let countFinishTime = null;
+
+
+// -----------------------------
+// TIMER FUNCTIONS
+// -----------------------------
+
+function setTimer(minutes) {
+  if (timerRunning) {
+    alert("Finish or pause the current count before changing the timer.");
+    return;
+  }
+
+  timerDurationSeconds = minutes * 60;
+  timerRemainingSeconds = timerDurationSeconds;
+
+  updateTimerDisplay();
+}
+
+function setCustomTimer() {
+  const customMinutes = Number(
+    document.getElementById("customMinutes").value
+  );
+
+  if (!customMinutes || customMinutes < 1) {
+    alert("Please enter a valid number of minutes.");
+    return;
+  }
+
+  setTimer(customMinutes);
+}
+
+function startTimer() {
+  if (timerRunning && !timerPaused) {
+    return;
+  }
+
+  if (!countStartTime) {
+    countStartTime = new Date();
+  }
+
+  timerRunning = true;
+  timerPaused = false;
+
+  document.getElementById("timerStatus").innerText = "Counting";
+
+  document.getElementById("startTimerButton").innerText = "COUNT RUNNING";
+  document.getElementById("startTimerButton").disabled = true;
+
+  document.getElementById("pauseTimerButton").disabled = false;
+  document.getElementById("finishTimerButton").disabled = false;
+
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    timerRemainingSeconds--;
+
+    if (timerRemainingSeconds <= 0) {
+      timerRemainingSeconds = 0;
+      updateTimerDisplay();
+      completeTimer();
+      return;
+    }
+
+    updateTimerDisplay();
+  }, 1000);
+
+  updateTimerDisplay();
+}
+
+function pauseTimer() {
+  if (!timerRunning) {
+    return;
+  }
+
+  if (!timerPaused) {
+    clearInterval(timerInterval);
+
+    timerPaused = true;
+
+    document.getElementById("timerStatus").innerText = "Paused";
+
+    document.getElementById("pauseTimerButton").innerText = "RESUME";
+
+  } else {
+    timerPaused = false;
+
+    document.getElementById("timerStatus").innerText = "Counting";
+
+    document.getElementById("pauseTimerButton").innerText = "PAUSE";
+
+    timerInterval = setInterval(() => {
+      timerRemainingSeconds--;
+
+      if (timerRemainingSeconds <= 0) {
+        timerRemainingSeconds = 0;
+        updateTimerDisplay();
+        completeTimer();
+        return;
+      }
+
+      updateTimerDisplay();
+    }, 1000);
+  }
+}
+
+function finishTimer() {
+  if (!timerRunning && !timerPaused) {
+    return;
+  }
+
+  clearInterval(timerInterval);
+
+  countFinishTime = new Date();
+
+  timerRunning = false;
+  timerPaused = false;
+
+  document.getElementById("timerStatus").innerText = "Count Finished";
+
+  document.getElementById("startTimerButton").innerText = "START COUNT";
+  document.getElementById("startTimerButton").disabled = true;
+
+  document.getElementById("pauseTimerButton").innerText = "PAUSE";
+  document.getElementById("pauseTimerButton").disabled = true;
+
+  document.getElementById("finishTimerButton").disabled = true;
+}
+
+function completeTimer() {
+  clearInterval(timerInterval);
+
+  countFinishTime = new Date();
+
+  timerRunning = false;
+  timerPaused = false;
+
+  document.getElementById("timerStatus").innerText = "COUNT COMPLETE";
+
+  document.getElementById("startTimerButton").innerText = "COUNT COMPLETE";
+  document.getElementById("startTimerButton").disabled = true;
+
+  document.getElementById("pauseTimerButton").disabled = true;
+  document.getElementById("finishTimerButton").disabled = true;
+
+  if (navigator.vibrate) {
+    navigator.vibrate([300, 200, 300]);
+  }
+}
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(timerRemainingSeconds / 60);
+  const seconds = timerRemainingSeconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+
+  document.getElementById("timerDisplay").innerText =
+    `${formattedMinutes}:${formattedSeconds}`;
+}
+
+
+// -----------------------------
+// ADD TRAFFIC COUNT
+// -----------------------------
 
 function addCount(directionKey, vehicleType) {
   const siteName =
@@ -44,9 +218,9 @@ function addCount(directionKey, vehicleType) {
 }
 
 
-// ----------------------------------------------------
+// -----------------------------
 // UNDO LAST COUNT
-// ----------------------------------------------------
+// -----------------------------
 
 function undoLast() {
   if (countRecords.length === 0) {
@@ -54,14 +228,13 @@ function undoLast() {
   }
 
   countRecords.pop();
-
   updateDisplay();
 }
 
 
-// ----------------------------------------------------
-// COUNT VEHICLES BY DIRECTION AND TYPE
-// ----------------------------------------------------
+// -----------------------------
+// COUNT HELPERS
+// -----------------------------
 
 function countMatches(direction, vehicleType) {
   return countRecords.filter(record =>
@@ -70,11 +243,6 @@ function countMatches(direction, vehicleType) {
   ).length;
 }
 
-
-// ----------------------------------------------------
-// COUNT TOTAL FOR A DIRECTION
-// ----------------------------------------------------
-
 function countDirectionTotal(direction) {
   return countRecords.filter(record =>
     record.direction === direction
@@ -82,9 +250,9 @@ function countDirectionTotal(direction) {
 }
 
 
-// ----------------------------------------------------
-// UPDATE ROAD AND DIRECTION LABELS
-// ----------------------------------------------------
+// -----------------------------
+// UPDATE LABELS
+// -----------------------------
 
 function updateLabels() {
   const roadName =
@@ -107,9 +275,9 @@ function updateLabels() {
 }
 
 
-// ----------------------------------------------------
-// UPDATE ALL COUNTERS ON SCREEN
-// ----------------------------------------------------
+// -----------------------------
+// UPDATE DISPLAY
+// -----------------------------
 
 function updateDisplay() {
   updateLabels();
@@ -119,9 +287,6 @@ function updateDisplay() {
 
   const directionB =
     document.getElementById("directionB").value;
-
-
-  // Direction A
 
   document.getElementById("directionALight").innerText =
     countMatches(directionA, "Light Vehicle");
@@ -139,8 +304,6 @@ function updateDisplay() {
     countDirectionTotal(directionA);
 
 
-  // Direction B
-
   document.getElementById("directionBLight").innerText =
     countMatches(directionB, "Light Vehicle");
 
@@ -157,13 +320,9 @@ function updateDisplay() {
     countDirectionTotal(directionB);
 
 
-  // Overall total
-
   document.getElementById("totalCount").innerText =
     countRecords.length;
 
-
-  // Last entry
 
   if (countRecords.length === 0) {
     document.getElementById("lastEntry").innerText =
@@ -180,12 +339,38 @@ function updateDisplay() {
 }
 
 
-// ----------------------------------------------------
-// EXPORT CSV REPORT
-// ----------------------------------------------------
+// -----------------------------
+// FORMAT TIMER DATA FOR REPORT
+// -----------------------------
+
+function formatDateTime(date) {
+  if (!date) {
+    return "";
+  }
+
+  return date.toLocaleString();
+}
+
+function getActualDurationMinutes() {
+  if (!countStartTime) {
+    return "";
+  }
+
+  const endTime =
+    countFinishTime || new Date();
+
+  const milliseconds =
+    endTime - countStartTime;
+
+  return (milliseconds / 60000).toFixed(1);
+}
+
+
+// -----------------------------
+// EXPORT REPORT
+// -----------------------------
 
 function exportCSV() {
-
   if (countRecords.length === 0) {
     alert("No traffic counts recorded yet.");
     return;
@@ -209,8 +394,6 @@ function exportCSV() {
   const directionB =
     document.getElementById("directionB").value;
 
-
-  // Totals
 
   const lightTotal =
     countRecords.filter(record =>
@@ -249,8 +432,6 @@ function exportCSV() {
   }
 
 
-  // Build dashboard
-
   let csv = "";
 
   csv += "TRAFFIC PLANNER TOOLKIT\n";
@@ -260,6 +441,11 @@ function exportCSV() {
   csv += `Client / Project,"${projectName}"\n`;
   csv += `Road,"${roadName}"\n`;
   csv += `Lane / Movement Type,"${laneType}"\n`;
+
+  csv += `Count Start,"${formatDateTime(countStartTime)}"\n`;
+  csv += `Count Finish,"${formatDateTime(countFinishTime)}"\n`;
+  csv += `Actual Duration (minutes),"${getActualDurationMinutes()}"\n`;
+
   csv += "\n";
 
   csv += "TRAFFIC SUMMARY\n";
@@ -269,10 +455,11 @@ function exportCSV() {
   csv += `Bus,${busTotal}\n`;
   csv += `Pedestrians,${pedestrianTotal}\n`;
   csv += `Heavy Vehicle %,${heavyPercent}%\n`;
+
   csv += "\n";
 
   csv += "DIRECTION SUMMARY\n";
-  csv += `Direction,Total\n`;
+  csv += "Direction,Total\n";
   csv += `"${directionA}",${directionATotal}\n`;
   csv += `"${directionB}",${directionBTotal}\n`;
 
@@ -284,7 +471,6 @@ function exportCSV() {
     "Timestamp,ISO Time,Site,Client / Project,Road,Lane / Movement Type,Direction,Vehicle Type\n";
 
   countRecords.forEach(record => {
-
     csv +=
       `"${record.timestamp}",` +
       `"${record.dateISO}",` +
@@ -294,11 +480,8 @@ function exportCSV() {
       `"${record.laneType}",` +
       `"${record.direction}",` +
       `"${record.vehicleType}"\n`;
-
   });
 
-
-  // Download file
 
   const blob =
     new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -324,9 +507,9 @@ function exportCSV() {
 }
 
 
-// ----------------------------------------------------
-// LIVE UPDATES WHEN SETUP CHANGES
-// ----------------------------------------------------
+// -----------------------------
+// LIVE SETUP UPDATES
+// -----------------------------
 
 document
   .getElementById("roadName")
@@ -341,8 +524,9 @@ document
   .addEventListener("change", updateDisplay);
 
 
-// ----------------------------------------------------
+// -----------------------------
 // INITIAL DISPLAY
-// ----------------------------------------------------
+// -----------------------------
 
+updateTimerDisplay();
 updateDisplay();
