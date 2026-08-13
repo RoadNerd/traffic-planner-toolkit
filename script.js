@@ -68,40 +68,27 @@ function startTimer() {
   timerRunning = true;
   timerPaused = false;
 
-  document.getElementById("timerStatus").innerText =
-    "Counting";
+  document.getElementById("timerStatus").innerText = "Counting";
 
-  document.getElementById("startTimerButton").innerText =
-    "COUNT RUNNING";
+  document.getElementById("startTimerButton").innerText = "COUNT RUNNING";
+  document.getElementById("startTimerButton").disabled = true;
 
-  document.getElementById("startTimerButton").disabled =
-    true;
-
-  document.getElementById("pauseTimerButton").disabled =
-    false;
-
-  document.getElementById("finishTimerButton").disabled =
-    false;
+  document.getElementById("pauseTimerButton").disabled = false;
+  document.getElementById("finishTimerButton").disabled = false;
 
   clearInterval(timerInterval);
 
   timerInterval = setInterval(function () {
-
     timerRemainingSeconds--;
 
     if (timerRemainingSeconds <= 0) {
-
       timerRemainingSeconds = 0;
-
       updateTimerDisplay();
-
       completeTimer();
-
       return;
     }
 
     updateTimerDisplay();
-
   }, 1000);
 
   updateTimerDisplay();
@@ -113,50 +100,35 @@ function startTimer() {
 // -----------------------------
 
 function pauseTimer() {
-
   if (!timerRunning) {
     return;
   }
 
   if (!timerPaused) {
-
     clearInterval(timerInterval);
 
     timerPaused = true;
 
-    document.getElementById("timerStatus").innerText =
-      "Paused";
-
-    document.getElementById("pauseTimerButton").innerText =
-      "RESUME";
+    document.getElementById("timerStatus").innerText = "Paused";
+    document.getElementById("pauseTimerButton").innerText = "RESUME";
 
   } else {
-
     timerPaused = false;
 
-    document.getElementById("timerStatus").innerText =
-      "Counting";
-
-    document.getElementById("pauseTimerButton").innerText =
-      "PAUSE";
+    document.getElementById("timerStatus").innerText = "Counting";
+    document.getElementById("pauseTimerButton").innerText = "PAUSE";
 
     timerInterval = setInterval(function () {
-
       timerRemainingSeconds--;
 
       if (timerRemainingSeconds <= 0) {
-
         timerRemainingSeconds = 0;
-
         updateTimerDisplay();
-
         completeTimer();
-
         return;
       }
 
       updateTimerDisplay();
-
     }, 1000);
   }
 }
@@ -167,7 +139,6 @@ function pauseTimer() {
 // -----------------------------
 
 function finishTimer() {
-
   clearInterval(timerInterval);
 
   timerInterval = null;
@@ -177,23 +148,15 @@ function finishTimer() {
   timerRunning = false;
   timerPaused = false;
 
-  document.getElementById("timerStatus").innerText =
-    "Count Finished";
+  document.getElementById("timerStatus").innerText = "Count Finished";
 
-  document.getElementById("startTimerButton").innerText =
-    "START COUNT";
+  document.getElementById("startTimerButton").innerText = "START COUNT";
+  document.getElementById("startTimerButton").disabled = true;
 
-  document.getElementById("startTimerButton").disabled =
-    true;
+  document.getElementById("pauseTimerButton").innerText = "PAUSE";
+  document.getElementById("pauseTimerButton").disabled = true;
 
-  document.getElementById("pauseTimerButton").innerText =
-    "PAUSE";
-
-  document.getElementById("pauseTimerButton").disabled =
-    true;
-
-  document.getElementById("finishTimerButton").disabled =
-    true;
+  document.getElementById("finishTimerButton").disabled = true;
 }
 
 
@@ -202,7 +165,6 @@ function finishTimer() {
 // -----------------------------
 
 function completeTimer() {
-
   clearInterval(timerInterval);
 
   timerInterval = null;
@@ -212,31 +174,16 @@ function completeTimer() {
   timerRunning = false;
   timerPaused = false;
 
-  document.getElementById("timerStatus").innerText =
-    "COUNT COMPLETE";
+  document.getElementById("timerStatus").innerText = "COUNT COMPLETE";
 
-  document.getElementById("startTimerButton").innerText =
-    "COUNT COMPLETE";
+  document.getElementById("startTimerButton").innerText = "COUNT COMPLETE";
+  document.getElementById("startTimerButton").disabled = true;
 
-  document.getElementById("startTimerButton").disabled =
-    true;
-
-  document.getElementById("pauseTimerButton").disabled =
-    true;
-
-  document.getElementById("finishTimerButton").disabled =
-    true;
-
-
-  // Vibrate Android device if supported
+  document.getElementById("pauseTimerButton").disabled = true;
+  document.getElementById("finishTimerButton").disabled = true;
 
   if (navigator.vibrate) {
-
-    navigator.vibrate([
-      300,
-      200,
-      300
-    ]);
+    navigator.vibrate([300, 200, 300]);
   }
 }
 
@@ -246,7 +193,6 @@ function completeTimer() {
 // -----------------------------
 
 function resetTimer() {
-
   clearInterval(timerInterval);
 
   timerInterval = null;
@@ -257,26 +203,17 @@ function resetTimer() {
   countStartTime = null;
   countFinishTime = null;
 
-  timerRemainingSeconds =
-    timerDurationSeconds;
+  timerRemainingSeconds = timerDurationSeconds;
 
-  document.getElementById("timerStatus").innerText =
-    "Ready";
+  document.getElementById("timerStatus").innerText = "Ready";
 
-  document.getElementById("startTimerButton").innerText =
-    "START COUNT";
+  document.getElementById("startTimerButton").innerText = "START COUNT";
+  document.getElementById("startTimerButton").disabled = false;
 
-  document.getElementById("startTimerButton").disabled =
-    false;
+  document.getElementById("pauseTimerButton").innerText = "PAUSE";
+  document.getElementById("pauseTimerButton").disabled = true;
 
-  document.getElementById("pauseTimerButton").innerText =
-    "PAUSE";
-
-  document.getElementById("pauseTimerButton").disabled =
-    true;
-
-  document.getElementById("finishTimerButton").disabled =
-    true;
+  document.getElementById("finishTimerButton").disabled = true;
 
   updateTimerDisplay();
 }
@@ -287,18 +224,11 @@ function resetTimer() {
 // -----------------------------
 
 function updateTimerDisplay() {
+  const minutes = Math.floor(timerRemainingSeconds / 60);
+  const seconds = timerRemainingSeconds % 60;
 
-  const minutes =
-    Math.floor(timerRemainingSeconds / 60);
-
-  const seconds =
-    timerRemainingSeconds % 60;
-
-  const formattedMinutes =
-    String(minutes).padStart(2, "0");
-
-  const formattedSeconds =
-    String(seconds).padStart(2, "0");
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
 
   document.getElementById("timerDisplay").innerText =
     formattedMinutes + ":" + formattedSeconds;
@@ -310,18 +240,17 @@ function updateTimerDisplay() {
 // -----------------------------
 
 function addCount(directionKey, vehicleType) {
-
   const siteName =
-    document.getElementById("siteName").value ||
-    "Unnamed Site";
+    document.getElementById("siteName").value || "Unnamed Site";
 
   const projectName =
-    document.getElementById("projectName").value ||
-    "Unnamed Project";
+    document.getElementById("projectName").value || "Unnamed Project";
 
   const roadName =
-    document.getElementById("roadName").value ||
-    "Unnamed Road";
+    document.getElementById("roadName").value || "Unnamed Road";
+
+  const laneCount =
+    document.getElementById("laneCount").value;
 
   const laneType =
     document.getElementById("laneType").value;
@@ -329,43 +258,23 @@ function addCount(directionKey, vehicleType) {
   let direction;
 
   if (directionKey === "A") {
-
-    direction =
-      document.getElementById("directionA").value;
-
+    direction = document.getElementById("directionA").value;
   } else {
-
-    direction =
-      document.getElementById("directionB").value;
+    direction = document.getElementById("directionB").value;
   }
 
   const now = new Date();
 
   const record = {
-
-    timestamp:
-      now.toLocaleString(),
-
-    dateISO:
-      now.toISOString(),
-
-    site:
-      siteName,
-
-    project:
-      projectName,
-
-    road:
-      roadName,
-
-    laneType:
-      laneType,
-
-    direction:
-      direction,
-
-    vehicleType:
-      vehicleType
+    timestamp: now.toLocaleString(),
+    dateISO: now.toISOString(),
+    site: siteName,
+    project: projectName,
+    road: roadName,
+    laneCount: laneCount,
+    laneType: laneType,
+    direction: direction,
+    vehicleType: vehicleType
   };
 
   countRecords.push(record);
@@ -379,7 +288,6 @@ function addCount(directionKey, vehicleType) {
 // -----------------------------
 
 function undoLast() {
-
   if (countRecords.length === 0) {
     return;
   }
@@ -395,14 +303,11 @@ function undoLast() {
 // -----------------------------
 
 function countMatches(direction, vehicleType) {
-
   return countRecords.filter(function (record) {
-
     return (
       record.direction === direction &&
       record.vehicleType === vehicleType
     );
-
   }).length;
 }
 
@@ -412,11 +317,8 @@ function countMatches(direction, vehicleType) {
 // -----------------------------
 
 function countDirectionTotal(direction) {
-
   return countRecords.filter(function (record) {
-
     return record.direction === direction;
-
   }).length;
 }
 
@@ -426,17 +328,14 @@ function countDirectionTotal(direction) {
 // -----------------------------
 
 function updateLabels() {
-
   const roadName =
-    document.getElementById("roadName").value ||
-    "Traffic";
+    document.getElementById("roadName").value || "Traffic";
 
   const directionA =
     document.getElementById("directionA").value;
 
   const directionB =
     document.getElementById("directionB").value;
-
 
   document.getElementById("roadTitle").innerText =
     roadName + " Count";
@@ -454,9 +353,7 @@ function updateLabels() {
 // -----------------------------
 
 function updateDisplay() {
-
   updateLabels();
-
 
   const directionA =
     document.getElementById("directionA").value;
@@ -464,92 +361,50 @@ function updateDisplay() {
   const directionB =
     document.getElementById("directionB").value;
 
-
-  // Direction A
-
   document.getElementById("directionALight").innerText =
-    countMatches(
-      directionA,
-      "Light Vehicle"
-    );
+    countMatches(directionA, "Light Vehicle");
 
   document.getElementById("directionAHeavy").innerText =
-    countMatches(
-      directionA,
-      "Heavy Vehicle"
-    );
+    countMatches(directionA, "Heavy Vehicle");
 
   document.getElementById("directionABus").innerText =
-    countMatches(
-      directionA,
-      "Bus"
-    );
+    countMatches(directionA, "Bus");
 
   document.getElementById("directionAPedestrian").innerText =
-    countMatches(
-      directionA,
-      "Pedestrian"
-    );
+    countMatches(directionA, "Pedestrian");
 
   document.getElementById("directionATotal").innerText =
     countDirectionTotal(directionA);
 
-
-  // Direction B
-
   document.getElementById("directionBLight").innerText =
-    countMatches(
-      directionB,
-      "Light Vehicle"
-    );
+    countMatches(directionB, "Light Vehicle");
 
   document.getElementById("directionBHeavy").innerText =
-    countMatches(
-      directionB,
-      "Heavy Vehicle"
-    );
+    countMatches(directionB, "Heavy Vehicle");
 
   document.getElementById("directionBBus").innerText =
-    countMatches(
-      directionB,
-      "Bus"
-    );
+    countMatches(directionB, "Bus");
 
   document.getElementById("directionBPedestrian").innerText =
-    countMatches(
-      directionB,
-      "Pedestrian"
-    );
+    countMatches(directionB, "Pedestrian");
 
   document.getElementById("directionBTotal").innerText =
     countDirectionTotal(directionB);
 
-
-  // Overall total
-
   document.getElementById("totalCount").innerText =
     countRecords.length;
 
-
-  // Last entry
-
   if (countRecords.length === 0) {
-
     document.getElementById("lastEntry").innerText =
       "None yet";
 
     return;
   }
 
-
   const last =
-    countRecords[
-      countRecords.length - 1
-    ];
-
+    countRecords[countRecords.length - 1];
 
   document.getElementById("lastEntry").innerText =
-
     last.timestamp +
     " | " +
     last.road +
@@ -565,7 +420,6 @@ function updateDisplay() {
 // -----------------------------
 
 function formatDateTime(date) {
-
   if (!date) {
     return "";
   }
@@ -579,21 +433,17 @@ function formatDateTime(date) {
 // -----------------------------
 
 function getActualDurationMinutes() {
-
   if (!countStartTime) {
     return "";
   }
 
   const endTime =
-    countFinishTime ||
-    new Date();
+    countFinishTime || new Date();
 
   const milliseconds =
     endTime - countStartTime;
 
-  return (
-    milliseconds / 60000
-  ).toFixed(1);
+  return (milliseconds / 60000).toFixed(1);
 }
 
 
@@ -602,28 +452,22 @@ function getActualDurationMinutes() {
 // -----------------------------
 
 function exportCSV() {
-
   if (countRecords.length === 0) {
-
-    alert(
-      "No traffic counts recorded yet."
-    );
-
+    alert("No traffic counts recorded yet.");
     return;
   }
 
-
   const roadName =
-    document.getElementById("roadName").value ||
-    "Unnamed Road";
+    document.getElementById("roadName").value || "Unnamed Road";
 
   const siteName =
-    document.getElementById("siteName").value ||
-    "Unnamed Site";
+    document.getElementById("siteName").value || "Unnamed Site";
 
   const projectName =
-    document.getElementById("projectName").value ||
-    "Unnamed Project";
+    document.getElementById("projectName").value || "Unnamed Project";
+
+  const laneCount =
+    document.getElementById("laneCount").value;
 
   const laneType =
     document.getElementById("laneType").value;
@@ -634,52 +478,25 @@ function exportCSV() {
   const directionB =
     document.getElementById("directionB").value;
 
-
-  // Vehicle totals
-
   const lightTotal =
     countRecords.filter(function (record) {
-
-      return (
-        record.vehicleType ===
-        "Light Vehicle"
-      );
-
+      return record.vehicleType === "Light Vehicle";
     }).length;
-
 
   const heavyTotal =
     countRecords.filter(function (record) {
-
-      return (
-        record.vehicleType ===
-        "Heavy Vehicle"
-      );
-
+      return record.vehicleType === "Heavy Vehicle";
     }).length;
-
 
   const busTotal =
     countRecords.filter(function (record) {
-
-      return (
-        record.vehicleType ===
-        "Bus"
-      );
-
+      return record.vehicleType === "Bus";
     }).length;
-
 
   const pedestrianTotal =
     countRecords.filter(function (record) {
-
-      return (
-        record.vehicleType ===
-        "Pedestrian"
-      );
-
+      return record.vehicleType === "Pedestrian";
     }).length;
-
 
   const directionATotal =
     countDirectionTotal(directionA);
@@ -687,163 +504,79 @@ function exportCSV() {
   const directionBTotal =
     countDirectionTotal(directionB);
 
-
-  // Pedestrians are excluded from vehicle total
-
   const vehicleTotal =
-    lightTotal +
-    heavyTotal +
-    busTotal;
-
-
-  // Heavy vehicle percentage
+    lightTotal + heavyTotal + busTotal;
 
   let heavyPercent = 0;
 
   if (vehicleTotal > 0) {
-
     heavyPercent =
-      (
-        (heavyTotal / vehicleTotal) *
-        100
-      ).toFixed(1);
+      ((heavyTotal / vehicleTotal) * 100).toFixed(1);
   }
-
-
-  // Equivalent hourly traffic flow
 
   let equivalentHourlyFlow = "";
 
   const actualDurationMinutes =
-    Number(
-      getActualDurationMinutes()
-    );
+    Number(getActualDurationMinutes());
 
   if (
     actualDurationMinutes > 0 &&
     vehicleTotal > 0
   ) {
-
     equivalentHourlyFlow =
       Math.round(
-
         vehicleTotal *
-        (
-          60 /
-          actualDurationMinutes
-        )
+        (60 / actualDurationMinutes)
       );
   }
 
-
-  // Build report
-
   let csv = "";
 
-  csv +=
-    "TRAFFIC PLANNER TOOLKIT\n";
+  csv += "TRAFFIC PLANNER TOOLKIT\n";
+  csv += "TRAFFIC COUNT DASHBOARD\n\n";
 
-  csv +=
-    "TRAFFIC COUNT DASHBOARD\n\n";
-
-
-  csv +=
-    'Site,"' +
-    siteName +
-    '"\n';
-
-  csv +=
-    'Client / Project,"' +
-    projectName +
-    '"\n';
-
-  csv +=
-    'Road,"' +
-    roadName +
-    '"\n';
-
-  csv +=
-    'Lane / Movement Type,"' +
-    laneType +
-    '"\n';
-
+  csv += 'Site,"' + siteName + '"\n';
+  csv += 'Client / Project,"' + projectName + '"\n';
+  csv += 'Road,"' + roadName + '"\n';
+  csv += 'Number of Lanes,"' + laneCount + '"\n';
+  csv += 'Lane / Movement Type,"' + laneType + '"\n';
 
   csv +=
     'Count Start,"' +
     formatDateTime(countStartTime) +
     '"\n';
 
-
   csv +=
     'Count Finish,"' +
     formatDateTime(countFinishTime) +
     '"\n';
-
 
   csv +=
     'Actual Duration (minutes),"' +
     getActualDurationMinutes() +
     '"\n';
 
-
   csv += "\n";
 
-
-  // Traffic summary
-
-  csv +=
-    "TRAFFIC SUMMARY\n";
-
-  csv +=
-    "Total Vehicles," +
-    vehicleTotal +
-    "\n";
-
-  csv +=
-    "Light Vehicles," +
-    lightTotal +
-    "\n";
-
-  csv +=
-    "Heavy Vehicles," +
-    heavyTotal +
-    "\n";
-
-  csv +=
-    "Bus," +
-    busTotal +
-    "\n";
-
-  csv +=
-    "Pedestrians," +
-    pedestrianTotal +
-    "\n";
-
-  csv +=
-    "Heavy Vehicle %," +
-    heavyPercent +
-    "%\n";
-
+  csv += "TRAFFIC SUMMARY\n";
+  csv += "Total Vehicles," + vehicleTotal + "\n";
+  csv += "Light Vehicles," + lightTotal + "\n";
+  csv += "Heavy Vehicles," + heavyTotal + "\n";
+  csv += "Bus," + busTotal + "\n";
+  csv += "Pedestrians," + pedestrianTotal + "\n";
+  csv += "Heavy Vehicle %," + heavyPercent + "%\n";
 
   if (equivalentHourlyFlow !== "") {
-
     csv +=
       "Equivalent Hourly Flow," +
       equivalentHourlyFlow +
       " veh/hr\n";
   }
 
-
   csv += "\n";
 
-
-  // Direction summary
-
-  csv +=
-    "DIRECTION SUMMARY\n";
-
-  csv +=
-    "Direction,Total\n";
+  csv += "DIRECTION SUMMARY\n";
+  csv += "Direction,Total\n";
 
   csv +=
     '"' +
@@ -859,97 +592,50 @@ function exportCSV() {
     directionBTotal +
     "\n";
 
-
   csv += "\n\n";
 
-
-  // Raw data
-
-  csv +=
-    "RAW COUNT DATA\n";
+  csv += "RAW COUNT DATA\n";
 
   csv +=
-    "Timestamp,ISO Time,Site,Client / Project,Road,Lane / Movement Type,Direction,Vehicle Type\n";
+    "Timestamp,ISO Time,Site,Client / Project,Road,Number of Lanes,Lane / Movement Type,Direction,Vehicle Type\n";
 
-
-  countRecords.forEach(
-    function (record) {
-
-      csv +=
-
-        '"' +
-        record.timestamp +
-        '",' +
-
-        '"' +
-        record.dateISO +
-        '",' +
-
-        '"' +
-        record.site +
-        '",' +
-
-        '"' +
-        record.project +
-        '",' +
-
-        '"' +
-        record.road +
-        '",' +
-
-        '"' +
-        record.laneType +
-        '",' +
-
-        '"' +
-        record.direction +
-        '",' +
-
-        '"' +
-        record.vehicleType +
-        '"\n';
-    }
-  );
-
-
-  // Create file
+  countRecords.forEach(function (record) {
+    csv +=
+      '"' + record.timestamp + '",' +
+      '"' + record.dateISO + '",' +
+      '"' + record.site + '",' +
+      '"' + record.project + '",' +
+      '"' + record.road + '",' +
+      '"' + record.laneCount + '",' +
+      '"' + record.laneType + '",' +
+      '"' + record.direction + '",' +
+      '"' + record.vehicleType + '"\n';
+  });
 
   const blob =
     new Blob(
       [csv],
       {
-        type:
-          "text/csv;charset=utf-8;"
+        type: "text/csv;charset=utf-8;"
       }
     );
-
 
   const url =
     URL.createObjectURL(blob);
 
-
   const downloadLink =
     document.createElement("a");
-
 
   downloadLink.href = url;
 
   downloadLink.download =
     "traffic-count-report.csv";
 
-
-  document.body.appendChild(
-    downloadLink
-  );
-
+  document.body.appendChild(downloadLink);
 
   downloadLink.click();
 
-
-  document.body.removeChild(
-    downloadLink
-  );
-
+  document.body.removeChild(downloadLink);
 
   URL.revokeObjectURL(url);
 }
@@ -966,14 +652,12 @@ document
     updateDisplay
   );
 
-
 document
   .getElementById("directionA")
   .addEventListener(
     "change",
     updateDisplay
   );
-
 
 document
   .getElementById("directionB")
@@ -988,5 +672,4 @@ document
 // -----------------------------
 
 updateTimerDisplay();
-
 updateDisplay();
