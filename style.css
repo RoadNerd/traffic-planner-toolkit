@@ -6,7 +6,7 @@ body {
 }
 
 .app {
-  max-width: 760px;
+  max-width: 700px;
   margin: auto;
 }
 
@@ -34,7 +34,7 @@ h1 {
 label {
   display: block;
   font-weight: bold;
-  margin-top: 12px;
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
@@ -42,11 +42,11 @@ input,
 select {
   width: 100%;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 14px;
   font-size: 18px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 h2 {
@@ -58,27 +58,7 @@ h2 {
 }
 
 h3 {
-  margin-top: 18px;
-  margin-bottom: 10px;
-}
-
-.road-setup {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-.direction-block {
-  background: #f7f7f7;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 12px;
-}
-
-.direction-title {
-  font-size: 22px;
-  font-weight: bold;
+  margin-top: 22px;
   margin-bottom: 10px;
 }
 
@@ -89,7 +69,8 @@ h3 {
 }
 
 button {
-  padding: 18px;
+  min-height: 85px;
+  padding: 16px;
   font-size: 18px;
   font-weight: bold;
   border: none;
@@ -99,51 +80,41 @@ button {
   cursor: pointer;
 }
 
-button:active {
-  transform: scale(0.96);
-}
-
-.vehicle-count {
+button span {
   display: block;
   font-size: 30px;
   margin-top: 8px;
 }
 
-.direction-total,
-.road-total {
-  font-weight: bold;
-  font-size: 18px;
-  background: #e9eef7;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 12px;
+button:active {
+  transform: scale(0.96);
 }
 
-.road-total {
-  background: #dfeee4;
+.direction-total {
+  font-weight: bold;
+  font-size: 18px;
+  background: #f4f4f4;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
 .summary {
   text-align: center;
 }
 
-.undo,
-.export,
-.clear {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
 .undo {
   background: #c0392b;
+  width: 100%;
+  min-height: 60px;
+  margin-bottom: 10px;
 }
 
 .export {
   background: #1e8449;
-}
-
-.clear {
-  background: #555;
+  width: 100%;
+  min-height: 60px;
+  margin-bottom: 20px;
 }
 
 #lastEntry {
@@ -151,4 +122,23 @@ button:active {
   border-radius: 8px;
   padding: 12px;
   word-break: break-word;
+}
+
+@media (max-width: 500px) {
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 17px;
+    min-height: 90px;
+  }
+
+  button span {
+    font-size: 32px;
+  }
 }
